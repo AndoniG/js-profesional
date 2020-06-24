@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>This</title>
+  </head>
+  <body>
+    <a href="/exercises/">Go Back</a>
+    <p><em>Abre la consola</em></p>
+    <script>
+      // Los generadores son funciones de las que se puede salir y volver a entrar.
+      // Su contexto (asociación de variables) será conservado entre las reentradas.
+      // Cada vez que llamamos next, la ejecución del generador va a continuar hasta el proximo yield
+      // Los generadores necesitan una estrella después de function;
+      // No es ejecutable, se debe guardar en una contante y ejecutar después.
+      function* simpleGenerator() {
+        console.log("Generator Start");
+        yield "pausa 1";
+        yield "pausa 2";
+        yield "pausa 3";
+        console.log("Generator End");
+      }
+      const gen = simpleGenerator();
+      const r = gen.next(); // Ejecuta hasta el primer yield y devuelve el valor;
+      console.log(r);
+
+      // Podemos hacer generadores infinitos.
+      function* idMaker() {
+        let id = 1;
+        while (true) {
+          yield id;
+          id = id + 1;
+        }
+      }
+
+      const maker = idMaker();
+      console.log("ID MAKER = ", maker.next());
+      console.log("ID MAKER = ", maker.next());
+      console.log("ID MAKER = ", maker.next());
+
+      // Cuando llamamos next también podemos pasar valores que la función recibe.
+      function* idMakerWithReset() {
+        let id = 1;
+        let reset;
+        while (true) {
+          reset = yield id;
+          if (reset) {
+            id = 1;
+          } else {
+            id = id + 1;
+          }
+        }
+      }
+
+      const makerReset = idMakerWithReset();
+      console.log("ID MAKER RESET = ", makerReset.next());
+      console.log("ID MAKER RESET = ", makerReset.next());
+      console.log("ID MAKER RESET = ", makerReset.next());
+      console.log(
+        "Mandamos true al next (lo recibe yield y lo devuelve) ",
+        makerReset.next(true)
+      );
+
+      // Ahora hagamos un ejemplo un poco más complejo: la secuencia fibonacci
+      function* fibonacci() {
+        let a = 1;
+        let b = 1;
+        while (true) {
+          const nextNumber = a + b;
+          a = b;
+          b = nextNumber;
+          yield nextNumber;
+        }
+      }
+
+      const fib = fibonacci();
+      console.log("Fibonacci ", fib.next());
+      console.log("Fibonacci ", fib.next());
+      console.log("Fibonacci ", fib.next());
+      console.log("Fibonacci ", fib.next());
+      console.log("ESCRIBE AQUÍ fib.next() PARA VER LOS SIGUIENTES NÚMEROS");
+    </script>
+  </body>
+</html>

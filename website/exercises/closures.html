@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Closures</title>
+  </head>
+  <body>
+    <a href="/exercises/">Go Back</a>
+    <p><em>Abre la consola</em></p>
+
+    <script>
+      // IIFE - IMMEDIATELY INVOKED FUNCTION EXPRESSION
+      (function () {
+        //  Al estar color dentro de la función, no pasa al scope global
+        let color = "green";
+
+        function printColor() {
+          console.log(color);
+        }
+
+        printColor();
+      })();
+
+      //   function makeColorPrinter(color) {
+      //     return function () {
+      //       let colorMessage = `The color is ${color}`;
+      //       console.log(colorMessage);
+      //     };
+      //   }
+
+      //   let greenColorPrinter = makeColorPrinter("green");
+      //   console.log(greenColorPrinter());
+
+      // Público
+      const counter = {
+        count: 3,
+      };
+      console.log(counter.count);
+
+      // Privado
+      function makeCounter(n) {
+        let count = n;
+        return {
+          increase: function () {
+            count += 1;
+          },
+          decrease: function () {
+            count -= 1;
+          },
+          getCount: function () {
+            return count;
+          },
+        };
+      }
+
+      let privateCounter = makeCounter(7);
+      console.log("privateCounter.count es privado - ", privateCounter.count);
+      console.log(
+        "privateCounter.getCount es público - ",
+        privateCounter.getCount()
+      );
+      privateCounter.increase();
+      console.log(
+        "privateCounter.getCount after Increase - ",
+        privateCounter.getCount()
+      );
+      privateCounter.decrease();
+      console.log(
+        "privateCounter.getCount after Decrease - ",
+        privateCounter.getCount()
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>This</title>
+  </head>
+  <body>
+    <a href="/exercises/">Go Back</a>
+    <p><em>Abre la consola</em></p>
+    <!-- ENCUENTRA LA DISTANCIA ENTRE 2 CADENAS. EJ. "JavaScript" y "Java" = distancia de 6 (diferencia en número de la palabra) -->
+    <!-- EJ. "red" y "reee" = 2 -->
+    <script src="https://unpkg.com/fast-levenshtein@2.0.6/levenshtein.js"></script>
+    <script>
+      const target = {
+        red: "Rojo",
+        green: "Verde",
+        blue: "Azúl",
+      };
+
+      // existen diferentes handlers de Proxy. Ver la documentación de MDN.
+      const handler = {
+        get(obj, prop) {
+          // debugger;
+          if (prop in obj) {
+            return obj[prop];
+          }
+
+          const suggestion = Object.keys(obj).find((key) => {
+            return Levenshtein.get(key, prop) <= 3;
+          });
+          console.log(suggestion);
+
+          if (suggestion) {
+            console.log(
+              `${prop} no se encontró. ¿Quisiste decir ${suggestion}?`
+            );
+          }
+
+          return obj[prop];
+        },
+      };
+
+      const p = new Proxy(target, handler);
+    </script>
+  </body>
+</html>
